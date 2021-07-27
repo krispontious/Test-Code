@@ -1,0 +1,30 @@
+This is simply for testing AA code bot bots.
+
+Start loop "Each row in SQL Data Set Session: ExcelasDB"
+  Variable Operation: 1 to $vIsRecipientPresent$
+  If $vToRecipients$ Equal To (=) "" Then
+    Variable Operation: $Dataset Column(1)$ To $vToRecipients$
+  Else
+    If $vToREcipients$ Does Not Include $Dataset Column(1)$ Then
+      Variable Operation: $vToRecipientCounter$+1 To $vToRecipientCounter$
+      Variable Operation: $vTorRecipients$;$Dataset Column(1)$ To $vToRecipients$
+    End If
+  End If
+  If $vToCCRecipients$ Equal To (=) "" Then
+    Variable Operation: $Dataset Column(2)$ To $vToCCRecipients$
+  Else
+    If $vToCCRecipients$ Does Not Include $Dataset Column(2)$ Then
+      Variable Operation: $vToRecipientCounter$+1 To $vToRecipientCounter$
+      Variable Operation: $vToCCRecipients$;$Dataset Column(2)$ To $vToCCRecipients$
+    End If
+  End If
+  If $vToRecipientCounter$ Greater than or Equal To(>+) "248" Then
+    Variable Operation: Action Required: Time Entry will be OVERDUE by Monday at 10:00 AM MST and Needed As Soon As Possible To $vSubject$
+    Variable Operation: Please enter your time for the last pay period as soon as possible. To $vEmailBody$
+    Log to File: $Date$,$Machine$,$System(USERNAME)$,$aatASKnAME$,aTTEMPTING  sEND EMAIL TO: $VtOrECIPIENTS$ IN "$VaUDITlOGfILE$"
+    Run Logic "SendEmail" from MetaBot "SendSMTPEmail.mbot"
+    Variable Operation:   To $vToRecipients$
+    Variable Operation: 1 To $vToRecipientCounter$
+    Variable Operation:   To $vToCCRecipients$
+  End If
+End Loop
